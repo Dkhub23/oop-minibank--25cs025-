@@ -1,4 +1,4 @@
-class Parkinglot {
+class ParkingLot {
     private int twoWheelers;
     private int fourWheelers;
 
@@ -7,15 +7,13 @@ class Parkinglot {
 
     private static long revenue = 0;
 
-  
-    Parkinglot(int twoCap, int fourCap) {
+    ParkingLot(int twoCap, int fourCap) {
         this.twoCap = twoCap;
         this.fourCap = fourCap;
         twoWheelers = 0;
         fourWheelers = 0;
     }
 
-    
     void park(String type) {
         if (type.equalsIgnoreCase("two")) {
             if (twoWheelers < twoCap) {
@@ -36,7 +34,6 @@ class Parkinglot {
         }
     }
 
-   
     void leave(String type) {
         if (type.equalsIgnoreCase("two")) {
             if (twoWheelers > 0) {
@@ -55,7 +52,6 @@ class Parkinglot {
         }
     }
 
-    
     void displayStatus() {
         System.out.println("\nFinal Occupancy:");
         System.out.println("Two-wheelers : " + twoWheelers);
@@ -64,15 +60,15 @@ class Parkinglot {
     }
 
     public static void main(String[] args) {
-
-        Parkinglot p = new Parkinglot(2, 2);
+        ParkingLot p = new ParkingLot(2, 2);
 
         p.park("two");
         p.park("two");
-        p.park("two");     
+        p.park("two");
+
         p.park("four");
         p.park("four");
-        p.park("four");     
+        p.park("four");
 
         p.leave("two");
         p.leave("four");
