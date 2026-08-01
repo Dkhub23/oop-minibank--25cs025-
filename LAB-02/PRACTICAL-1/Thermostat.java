@@ -8,6 +8,7 @@ public class Thermostat{
 
     public Thermostat(String location, int startTemp)
     {
+         
         this.location = location;
         this.temperature = (startTemp >= MIN && startTemp <= MAX) ? startTemp : 22;
         activeCount++;
@@ -16,6 +17,7 @@ public class Thermostat{
     public Thermostat(String location)
     {
         this(location, 22);
+        
     }
     public void raise(){
         if(temperature<MAX)
