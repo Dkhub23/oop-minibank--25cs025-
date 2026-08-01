@@ -54,6 +54,13 @@ public class Account {
    public int hashCode(){
        return Objects.hash(accountNumber, ownerName, balance, active);
    }
+
+   public String getAccountNumber(){
+    return accountNumber;
+   }
+    public long getBalance(){
+    return balance;
+   }
 }
         
     
