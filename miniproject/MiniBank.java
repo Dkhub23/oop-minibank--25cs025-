@@ -16,9 +16,9 @@ public class MiniBank {
     public static void main(String[] args) {
 
         Account[] accounts = {
-            new Account("Dhruvi", 5000),
-            new Account("Rahul", 3000),
-            new Account("Priya", 7000)
+            new Account("x", 5000),
+            new Account("y", 3000),
+            new Account("z", 7000)
         };
 
         accounts[0].deposit(1000);
@@ -27,7 +27,18 @@ public class MiniBank {
         accounts[2].withdraw(1000);
 
         for (Account account : accounts) {
-            System.out.println(account.getAccountNumber() + " : " + account.getBalance());
+            System.out.println(account);
+        }
+
+        System.out.println();
+        System.out.println("Account comparison tests:");
+        System.out.println("Account 1 equals Account 2: " + accounts[0].equals(accounts[1]));
+        System.out.println("Account 1 equals itself: " + accounts[0].equals(accounts[0]));
+
+        Object someObject = accounts[0];
+        if (someObject instanceof Account) {
+            Account account = (Account) someObject;
+            System.out.println("someObject is an Account with number: " + account.getAccountNumber());
         }
 
         Scanner sc = new Scanner(System.in);

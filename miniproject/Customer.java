@@ -1,8 +1,9 @@
-public class Customer {
+public class Customer implements Cloneable {
     private String name;
     private String email;
     private String mobile;
     private final String customerId;
+    private Address address;
 
     private static long customerCounter = 100;
 
@@ -12,11 +13,53 @@ public class Customer {
     }
 
     public Customer(String name, String email, String mobile) {
+        this(name, email, mobile, null);
+    }
+
+    public Customer(String name, String email, String mobile, Address address) {
         this.name = name;
         this.email = email;
         this.mobile = mobile;
+        this.address = address;
         this.customerId = generateCustomerId();
     }
 
-   
+    public Address getAddress() {
+        return address;
+    }
+
+    @Override
+    public Customer clone() {
+        try {
+            Customer cloned = (Customer) super.clone();
+            cloned.address = (address == null) ? null : new Address(address.line, address.city, address.pincode);
+            return cloned;
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError("Clone not supported", e);
+        }
+    }
+
+    public static class Address {
+        private final String line;
+        private final String city;
+        private final String pincode;
+
+        public Address(String line, String city, String pincode) {
+            this.line = line;
+            this.city = city;
+            this.pincode = pincode;
+        }
+
+        public String getLine() {
+            return line;
+        }
+
+        public String getCity() {
+            return city;
+        }
+
+        public String getPincode() {
+            return pincode;
+        }
+    }
 }
