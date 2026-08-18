@@ -1,12 +1,14 @@
 import java.lang.*;
 import java.util.*;
 
-public class Account {
+ public class Account {
     private static int counter = 1;
     private final String accountNumber;
     private String ownerName;
     private long balance;
     private boolean active;
+
+    
 
     public Account(String ownerName) {
         this(ownerName, 0);
