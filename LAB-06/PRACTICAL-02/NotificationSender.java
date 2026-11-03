@@ -1,3 +1,4 @@
+
 interface Notifier {
     void send(String mssg);
 }
@@ -16,7 +17,7 @@ public class NotificationSender {
 
     public static void main(String[] args) {
 
-       
+        Notifier email = mssg -> System.out.println("Email: " + mssg);
 
         Notifier sms = mssg -> System.out.println("SMS: " + mssg);
 
@@ -27,9 +28,11 @@ public class NotificationSender {
         String message = "Server is down";
 
         for (Notifier sender : senders) {
+
             sender.send(message);
+
             if (sender instanceof Urgent) {
-                sender.send(message);
+                System.out.println("This is an Urgent Notification");
             }
         }
     }

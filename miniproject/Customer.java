@@ -1,14 +1,16 @@
-public class Customer implements Cloneable {
+import java.io.Serializable;
 
+public class Customer implements Cloneable, Serializable {
+    private static final long serialVersionUID = 1L;
     private String name;
     private String email;
     private String mobile;
-
+    @Id
     private final String customerId;
-
     private static long customerCounter = 100;
+    private Address address;
 
-    private static String generateCustomerId() {
+    private static synchronized String generateCustomerId() {
         customerCounter++;
         return "CUST" + customerCounter;
     }
@@ -19,66 +21,35 @@ public class Customer implements Cloneable {
         this.mobile = mobile;
         this.customerId = generateCustomerId();
     }
+    public String getName() { return name; }
+    public String getEmail() { return email; }
+    public String getMobile() { return mobile; }
+    public String getCustomerId() { return customerId; }
 
-    public String getName() {
-        return name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public String getMobile() {
-        return mobile;
-    }
-
-    public String getCustomerId() {
-        return customerId;
-    }
-
-    public static class Address {
-
+    public static class Address implements Serializable {
+        private static final long serialVersionUID = 1L;
         private String line;
         private String city;
         private String pincode;
-
         public Address(String line, String city, String pincode) {
-            this.line = line;
-            this.city = city;
-            this.pincode = pincode;
+            this.line = line; this.city = city; this.pincode = pincode;
         }
-
-        public String getLine() {
-            return line;
-        }
-
-        public String getCity() {
-            return city;
-        }
-
-        public String getPincode() {
-            return pincode;
-        }
+        public String getLine() { return line; }
+        public String getCity() { return city; }
+        public String getPincode() { return pincode; }
     }
 
-    private Address address;
-
-    public void setAddress(Address address) {
-        this.address = address;
-    }
-
-    public Address getAddress() {
-        return address;
-    }
+    public void setAddress(Address address) { this.address = address; }
+    public Address getAddress() { return address; }
 
     @Override
     public Customer clone() {
-
         try {
-            return (Customer) super.clone();
-        }
-        catch (CloneNotSupportedException e) {
-            throw new RuntimeException(e);
+            Customer copy = (Customer) super.clone();
+            if (address != null) copy.address = new Address(address.line, address.city, address.pincode);
+            return copy;
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError(e);
         }
     }
 }

@@ -1,131 +1,70 @@
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
 
-class BankException extends Exception {
-
-    public BankException(String message) {
-        super(message);
-    }
-}
 public class MiniBank {
-
     public static void main(String[] args) {
-
-        Account a1 = new SavingsAccount("Dhruvi", 100001L, 5000L);
-        Account a2 = new SavingsAccount("princee", 100002L, 3000L);
-
-        System.out.println(a1);
-        System.out.println(a2);
-
-        System.out.println("Are accounts equal? " + a1.equals(a2));
-
-        Object obj = a1;
-
-        if (obj instanceof Account) {
-            System.out.println("Object is an Account");
-        }
-
-        Customer c1 = new Customer(
-            "Dhruvi",
-            "dhruvi@gmail.com",
-            "9876543210"
-        );
-
-        Customer.Address address =
-            new Customer.Address(
-                "Main Road",
-                "Surat",
-                "395001"
-            );
-
-        c1.setAddress(address);
-
-        Customer c2 = c1.clone();
-
-        System.out.println("Customer ID: " + c2.getCustomerId());
-        System.out.println("City: " + c2.getAddress().getCity());
-
-
-         System.out.println(
-            "Mobile valid: " +
-            Validator.isValidMobile("9876543210")
-        );
-
-        System.out.println(
-            "Mobile valid: " +
-            Validator.isValidMobile("12345")
-        );
-
-        System.out.println(
-            "Email valid: " +
-            Validator.isValidEmail("abc@gmail.com")
-        );
-
-        System.out.println(
-            "Email valid: " +
-            Validator.isValidEmail("abc@")
-        );
-
-        System.out.println(
-            "PAN valid: " +
-            Validator.isValidPan("ABCDE1234F")
-        );
-
-        System.out.println(
-            "PAN valid: " +
-            Validator.isValidPan("12345ABCDE")
-        );
-
-        System.out.println(
-            "IFSC valid: " +
-            Validator.isValidIfsc("SBIN0001234")
-        );
-
-        System.out.println(
-            "IFSC valid: " +
-            Validator.isValidIfsc("123456")
-        );
-
-        Command command =
-            CommandParser.parse("DEPOSIT AC0001 500");
-
-        System.out.println("Type: " + command.type());
-        System.out.println("Account: " + command.accountNumber());
-        System.out.println("Amount: " + command.amount());
-
-        Account account = new SavingsAccount("Dhruvi", 100003L, 5000L);
-
-        System.out.println(
-            StatementFormatter.buildStatement(account)
-        );
-
-          Account[] accounts = {
-            new SavingsAccount("Dhruvi", 5000, 1000),
-            new CurrentAccount("Rahul", 2000, 5000),
-            new FixedDepositAccount("Priya", 10000)
-        };
-
-        for (Account currentAccount : accounts) {
-
-            System.out.println(
-                "Account: " +
-                currentAccount.getAccountNumber()
-            );
-
-            System.out.println(
-                "Interest Rate: " +
-                currentAccount.interestRate()
-            );
-
-            System.out.println();
-        }
-
-                    Account minimumBalanceAccount =
-            new SavingsAccount("Dhruvi", 5000, 1000);
-
-                if (minimumBalanceAccount instanceof SavingsAccount savings) {
-            System.out.println(
-                "Minimum balance account found: " +
-                savings.getBalance()
-            );
+        BankService bank = new BankService();
+        try (Scanner sc = new Scanner(System.in)) {
+            boolean running = true;
+            while (running) {
+                System.out.println("\\n===== MiniBank =====");
+                System.out.println("1. Open account");
+                System.out.println("2. Deposit");
+                System.out.println("3. Withdraw");
+                System.out.println("4. Transfer");
+                System.out.println("5. Account statement");
+                System.out.println("6. List accounts (balance high to low)");
+                System.out.println("7. Process batch file lines");
+                System.out.println("8. Transaction report");
+                System.out.println("9. Save and exit");
+                System.out.print("Choose: ");
+                String choice = sc.nextLine().trim();
+                try {
+                    switch (choice) {
+                        case "1" -> {
+                            System.out.print("Owner name: "); String name = sc.nextLine();
+                            System.out.print("Opening balance: "); long amount = Long.parseLong(sc.nextLine().trim());
+                            System.out.print("Type (SAVINGS/CURRENT/FIXED): "); String type = sc.nextLine().trim();
+                            Account a = bank.openAccount(name, amount, type);
+                            System.out.println("Account opened: " + a);
+                        }
+                        case "2" -> {
+                            System.out.print("Account number: "); String id = sc.nextLine().trim();
+                            System.out.print("Amount: "); long amount = Long.parseLong(sc.nextLine().trim());
+                            bank.deposit(id, amount); System.out.println("Deposit successful.");
+                        }
+                        case "3" -> {
+                            System.out.print("Account number: "); String id = sc.nextLine().trim();
+                            System.out.print("Amount: "); long amount = Long.parseLong(sc.nextLine().trim());
+                            bank.withdraw(id, amount); System.out.println("Withdrawal successful.");
+                        }
+                        case "4" -> {
+                            System.out.print("From account: "); String from = sc.nextLine().trim();
+                            System.out.print("To account: "); String to = sc.nextLine().trim();
+                            System.out.print("Amount: "); long amount = Long.parseLong(sc.nextLine().trim());
+                            bank.transfer(from, to, amount); System.out.println("Transfer successful.");
+                        }
+                        case "5" -> {
+                            System.out.print("Account number: "); System.out.println(bank.statement(sc.nextLine().trim()));
+                        }
+                        case "6" -> bank.listAccounts().forEach(System.out::println);
+                        case "7" -> {
+                            System.out.println("Enter commands (DEPOSIT AC0001 500 / WITHDRAW AC0001 200). Blank line ends batch:");
+                            List<String> lines = new ArrayList<>();
+                            while (true) { String line = sc.nextLine(); if (line.isBlank()) break; lines.add(line); }
+                            bank.processBatch(lines); System.out.println("Batch completed.");
+                        }
+                        case "8" -> System.out.println(bank.runReport());
+                        case "9" -> { bank.saveOnExit(); System.out.println("Saved. Goodbye."); running = false; }
+                        default -> System.out.println("Invalid menu choice.");
+                    }
+                } catch (RuntimeException e) {
+                    System.out.println("Error: " + e.getMessage());
+                }
+            }
+        } finally {
+            bank.saveOnExit();
         }
     }
 }
