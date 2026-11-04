@@ -1,0 +1,3 @@
+Total deposits: 11100
+Total withdrawals: 100
+Net change: 11000

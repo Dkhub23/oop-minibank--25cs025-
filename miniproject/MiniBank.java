@@ -8,7 +8,7 @@ public class MiniBank {
         try (Scanner sc = new Scanner(System.in)) {
             boolean running = true;
             while (running) {
-                System.out.println("\\n===== MiniBank =====");
+                System.out.println("===== MiniBank =====");
                 System.out.println("1. Open account");
                 System.out.println("2. Deposit");
                 System.out.println("3. Withdraw");
