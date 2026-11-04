@@ -1,34 +1,29 @@
-
 import java.util.ArrayList;
 
-
-
 public class StudentService {
-    private ArrayList <Student> students=new ArrayList<>();
 
-    public static class Student {
-        private final String name;
-        private final int marks;
+    private ArrayList<Student> students = new ArrayList<>();
 
-        public Student(String name, int marks) {
-            this.name = name;
-            this.marks = marks;
+    public void addStudent(Student s) {
+        if (s == null) {
+            throw new IllegalArgumentException("Invalid student");
         }
+        students.add(s);
     }
 
-    public void add(String name,int marks){
-        if(name==null||name.isBlank())
-            throw new IllegalArgumentException("name cannot be empty\n");
-        if(marks<0 || marks>100)
-            throw new IllegalArgumentException("marks is invalid");
-        students.add(new Student(name, marks));
-    }
-
-    public int count(){
+    public int getCount() {
         return students.size();
     }
 
-    public ArrayList<Student> getall(){
-        return  students;
+    public ArrayList<Student> getStudents() {
+        return new ArrayList<>(students);
+    }
+
+    public void deleteStudent(int id) {
+        boolean removed = students.removeIf(s -> s.getId() == id);
+
+        if (!removed) {
+            throw new IllegalArgumentException("Student not found");
+        }
     }
 }

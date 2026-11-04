@@ -7,7 +7,7 @@ import java.util.Map;
 
 public class WordFreq {
     public static void main(String[] args) {
-        String text = "hello hy how are you in changa with largest forest hello hy";
+        String text = "hello hy how are you in chanAga with largest forest hello hy";
         Map<String, Integer> freq = new HashMap<>();
 
         for (String w : text.toLowerCase().split("\\W+")) {

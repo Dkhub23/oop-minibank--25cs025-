@@ -1,0 +1,15 @@
+----- FILE REPORT -----
+Name: FolderReport$1.class
+Size: 2298 bytes
+Modified: 2026-11-03T18:32:47.0723535Z
+----------------------
+Name: FolderReport.class
+Size: 3017 bytes
+Modified: 2026-11-03T18:36:53.7814253Z
+----------------------
+Name: FolderReport.java
+Size: 1613 bytes
+Modified: 2026-11-03T18:36:50.0372831Z
+----------------------
+Total Files: 3
+Total Size: 6928 bytes
